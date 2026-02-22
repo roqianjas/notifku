@@ -4,9 +4,8 @@ import AppLayout from "@/Layouts/AppLayout";
 import PostCard from "@/Components/PostCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/button";
-import { MapPin, Calendar, Users } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { id as idLocale } from "date-fns/locale";
+import { Card, CardContent } from "@/Components/ui/card";
+import { Separator } from "@/Components/ui/separator";
 import type { Post, PaginatedData, ProfileUser, PageProps } from "@/types";
 
 interface Props {
@@ -30,15 +29,15 @@ export default function ProfileShow({ profileUser, posts }: Props) {
         <AppLayout>
             <Head title={`${profileUser.name} (@${profileUser.username})`} />
 
-            <div className="space-y-5">
+            <div className="space-y-4">
                 {/* Profile Header */}
-                <div className="rounded-2xl border border-border/60 bg-white shadow-sm overflow-hidden">
+                <Card className="overflow-hidden">
                     {/* Cover gradient */}
-                    <div className="h-32 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400" />
+                    <div className="h-32 bg-linear-to-br from-indigo-400 via-purple-400 to-pink-400" />
 
-                    <div className="px-6 pb-6">
+                    <CardContent className="px-6 pb-6 pt-0">
                         <div className="flex items-end gap-4 -mt-12 mb-4">
-                            <Avatar className="h-24 w-24 border-4 border-white shadow-lg">
+                            <Avatar className="h-24 w-24 border-4 border-background shadow-lg">
                                 <AvatarImage src={profileUser.avatar ?? undefined} />
                                 <AvatarFallback className="text-2xl">{profileUser.name.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
@@ -72,8 +71,10 @@ export default function ProfileShow({ profileUser, posts }: Props) {
                             <p className="text-sm mb-4">{profileUser.bio}</p>
                         )}
 
+                        <Separator className="mb-4" />
+
                         {/* Stats */}
-                        <div className="flex items-center gap-5">
+                        <div className="flex items-center gap-6">
                             <span className="text-sm">
                                 <span className="font-bold">{profileUser.posts_count}</span>{" "}
                                 <span className="text-muted-foreground">Post</span>
@@ -87,30 +88,32 @@ export default function ProfileShow({ profileUser, posts }: Props) {
                                 <span className="text-muted-foreground">Mengikuti</span>
                             </Link>
                         </div>
-                    </div>
-                </div>
+                    </CardContent>
+                </Card>
 
                 {/* Posts */}
                 {posts.data.length === 0 ? (
-                    <div className="rounded-xl border border-dashed border-border p-12 text-center">
-                        <p className="text-muted-foreground">Belum ada postingan.</p>
-                    </div>
+                    <Card>
+                        <CardContent className="p-12 text-center">
+                            <p className="text-muted-foreground">Belum ada postingan.</p>
+                        </CardContent>
+                    </Card>
                 ) : (
                     posts.data.map((post) => <PostCard key={post.id} post={post} />)
                 )}
 
                 {/* Pagination */}
                 {posts.last_page > 1 && (
-                    <div className="flex items-center justify-center gap-2 pt-4">
+                    <div className="flex items-center justify-center gap-1 pt-4">
                         {posts.links.map((link, i) => (
                             <Link
                                 key={i}
                                 href={link.url ?? "#"}
-                                className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${link.active
+                                className={`inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm transition-colors ${link.active
                                         ? "bg-primary text-primary-foreground"
                                         : link.url
-                                            ? "hover:bg-secondary"
-                                            : "text-muted-foreground pointer-events-none"
+                                            ? "hover:bg-accent hover:text-accent-foreground"
+                                            : "text-muted-foreground pointer-events-none opacity-50"
                                     }`}
                                 dangerouslySetInnerHTML={{ __html: link.label }}
                             />
