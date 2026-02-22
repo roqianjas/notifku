@@ -18,6 +18,9 @@ export default defineConfig({
             '@': resolve(__dirname, 'resources/js'),
         },
     },
+    build: {
+        chunkSizeWarningLimit: 600,
+    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],
