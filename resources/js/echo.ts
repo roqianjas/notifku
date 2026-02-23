@@ -18,4 +18,10 @@ window.Echo = new Echo({
     wssPort: parseInt(import.meta.env.VITE_REVERB_PORT ?? '8080'),
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
+    // Auto-reconnect settings
+    cluster: '',
+    disableStats: true,
+    enableLogging: false,
+    activityTimeout: 120000,     // 120 detik sebelum dianggap mati
+    pongTimeout: 10000,          // 10 detik tunggu pong response
 });
